@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from .models import Category, FoodItem, Order
 from .serializers import (
@@ -8,6 +9,7 @@ from .serializers import (
     OrderCreateSerializer,
     OrderResponseSerializer,
     OrderDetailSerializer,
+    OrderStatusSerializer,
 )
 
 
@@ -39,4 +41,17 @@ class OrderCreateView(generics.CreateAPIView):
         )
 class OrderDetailView(generics.RetrieveAPIView):
     queryset = Order.objects.all()
-    serializer_class = OrderDetailSerializer    
+    serializer_class = OrderDetailSerializer
+
+class OrderStatusUpdateView(generics.UpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderStatusSerializer
+    http_method_names = ["patch"] 
+
+class OrderListView(generics.ListAPIView):
+    queryset = Order.objects.all().order_by("-created_at")
+    serializer_class = OrderDetailSerializer 
+       
+class FoodItemViewSet(viewsets.ModelViewSet):
+    queryset = FoodItem.objects.all()
+    serializer_class = FoodItemSerializer
