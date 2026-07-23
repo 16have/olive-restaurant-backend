@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import viewsets
 
 from .models import Category, FoodItem, Order
@@ -11,18 +12,6 @@ from .serializers import (
     OrderDetailSerializer,
     OrderStatusSerializer,
 )
-
-
-class CategoryListView(generics.ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-
-class FoodItemListView(generics.ListAPIView):
-    queryset = FoodItem.objects.filter(
-        is_available=True
-    )
-    serializer_class = FoodItemSerializer
 
 class OrderCreateView(generics.CreateAPIView):
     serializer_class = OrderCreateSerializer
@@ -51,7 +40,21 @@ class OrderStatusUpdateView(generics.UpdateAPIView):
 class OrderListView(generics.ListAPIView):
     queryset = Order.objects.all().order_by("-created_at")
     serializer_class = OrderDetailSerializer 
-       
+
+class FoodItemViewSet(viewsets.ModelViewSet):
+    queryset = FoodItem.objects.all()
+    serializer_class = FoodItemSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+class FoodItemListView(generics.ListAPIView):
+    queryset = FoodItem.objects.filter(is_available=True)
+    serializer_class = FoodItemSerializer
+    
 class FoodItemViewSet(viewsets.ModelViewSet):
     queryset = FoodItem.objects.all()
     serializer_class = FoodItemSerializer

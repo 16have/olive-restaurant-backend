@@ -1,48 +1,43 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from .views import (
-    CategoryListView,
-    FoodItemListView,
+    CategoryViewSet,
+    FoodItemViewSet,
     OrderCreateView,
     OrderDetailView,
-    OrderStatusUpdateView,
     OrderListView,
+    OrderStatusUpdateView,
 )
 
+router = DefaultRouter()
+router.register(r"categories", CategoryViewSet)
+router.register(r"food-items", FoodItemViewSet)
+
 urlpatterns = [
+    path("", include(router.urls)),
+
     path(
-        "categories/",
-        CategoryListView.as_view(),
-        name="category-list",
+        "orders/",
+        OrderCreateView.as_view(),
+        name="order-create",
     ),
 
     path(
-        "food-items/",
-        FoodItemListView.as_view(),
-        name="food-item-list",
+        "orders/all/",
+        OrderListView.as_view(),
+        name="order-list",
     ),
+
     path(
-    "orders/",
-    OrderCreateView.as_view(),
-    name="order-create",
+        "orders/<int:pk>/",
+        OrderDetailView.as_view(),
+        name="order-detail",
     ),
+
     path(
-    "orders/<int:pk>/",
-    OrderDetailView.as_view(),
-    name="order-detail",
+        "orders/<int:pk>/status/",
+        OrderStatusUpdateView.as_view(),
+        name="order-status-update",
     ),
-    path(
-    "orders/<int:pk>/status/",
-    OrderStatusUpdateView.as_view(),
-    name="order-status-update",
-    ),
-    path(
-    "orders/all/",
-    OrderListView.as_view(),
-    name="order-list",
-),
-path(
-    "orders/<int:pk>/status/",
-    OrderStatusUpdateView.as_view(),
-),
 ]
