@@ -1,3 +1,6 @@
+import os
+from django.contrib.auth.models import User
+from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -54,7 +57,18 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class FoodItemListView(generics.ListAPIView):
     queryset = FoodItem.objects.filter(is_available=True)
     serializer_class = FoodItemSerializer
-    
+
 class FoodItemViewSet(viewsets.ModelViewSet):
     queryset = FoodItem.objects.all()
     serializer_class = FoodItemSerializer
+
+def create_admin(request):
+    if User.objects.filter(username="admin").exists():
+        return JsonResponse({"message": "Admin already exists."})
+
+    User.objects.create_superuser(
+        username="admin",
+        email="admin@example.com",
+        password=os.environ.get("SEED_ADMIN_PASSWORD", "changeme123"),
+    )
+    return JsonResponse({"message": "Superuser created successfully."})

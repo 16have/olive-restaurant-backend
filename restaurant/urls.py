@@ -1,3 +1,4 @@
+from .views import create_admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
@@ -40,4 +41,8 @@ urlpatterns = [
         OrderStatusUpdateView.as_view(),
         name="order-status-update",
     ),
+]
+urlpatterns = [
+    # ... your existing routes
+    path("create-admin/", create_admin, name="create-admin"),
 ]
