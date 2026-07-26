@@ -69,8 +69,8 @@ def create_admin(request):
         return JsonResponse({"message": "Admin already exists."})
 
     User.objects.create_superuser(
-        username="admin",
-        email="admin@example.com",
-        password=os.environ.get("SEED_ADMIN_PASSWORD", "changeme123"),
+        username="Kelvin",
+        email="joer88544@gmail.com",
+        password=os.environ.get("SEED_ADMIN_PASSWORD", "ytrewq123"),
     )
     return JsonResponse({"message": "Superuser created successfully."})
