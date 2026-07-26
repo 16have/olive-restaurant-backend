@@ -1,48 +1,19 @@
-from .views import create_admin
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
 from .views import (
-    CategoryViewSet,
-    FoodItemViewSet,
+    CategoryListView,
+    FoodItemListView,
     OrderCreateView,
     OrderDetailView,
-    OrderListView,
     OrderStatusUpdateView,
+    create_admin,
 )
 
-router = DefaultRouter()
-router.register(r"categories", CategoryViewSet)
-router.register(r"food-items", FoodItemViewSet)
-
 urlpatterns = [
-    path("", include(router.urls)),
-
-    path(
-        "orders/",
-        OrderCreateView.as_view(),
-        name="order-create",
-    ),
-
-    path(
-        "orders/all/",
-        OrderListView.as_view(),
-        name="order-list",
-    ),
-
-    path(
-        "orders/<int:pk>/",
-        OrderDetailView.as_view(),
-        name="order-detail",
-    ),
-
-    path(
-        "orders/<int:pk>/status/",
-        OrderStatusUpdateView.as_view(),
-        name="order-status-update",
-    ),
-]
-urlpatterns = [
-    # ... your existing routes
+    path("categories/", CategoryListView.as_view(), name="category-list"),
+    path("food-items/", FoodItemListView.as_view(), name="food-item-list"),
+    path("orders/", OrderCreateView.as_view(), name="order-create"),
+    path("orders/<int:pk>/", OrderDetailView.as_view(), name="order-detail"),
+    path("orders/<int:pk>/status/", OrderStatusUpdateView.as_view(), name="order-status-update"),
     path("create-admin/", create_admin, name="create-admin"),
 ]
