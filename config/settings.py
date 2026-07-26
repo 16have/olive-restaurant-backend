@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-zb69kp-a-jzqo+m57bktim5-1#3g91%%e4@o$lgcxfu4*8!h#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["olive-restaurant-backend.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
