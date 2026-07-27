@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 python manage.py migrate
 
@@ -7,10 +8,10 @@ from restaurant.models import FoodItem
 from django.core.management import call_command
 
 if FoodItem.objects.count() == 0:
-    print("Seeding database...")
+    print("Seeding production database...")
     call_command("seed")
 else:
     print("Database already contains menu items.")
 EOF
 
-exec gunicorn config.wsgi
+exec gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
