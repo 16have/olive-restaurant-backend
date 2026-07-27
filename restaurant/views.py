@@ -1,8 +1,7 @@
-import os
-from django.contrib.auth.models import User
-from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import viewsets
 
 from .models import Category, FoodItem, Order
 from .serializers import (
@@ -31,23 +30,15 @@ class OrderCreateView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         order = serializer.save()
-
         response_serializer = OrderResponseSerializer(order)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
 
         return Response(
             response_serializer.data,
             status=status.HTTP_201_CREATED
         )
-
-
-class OrderListView(generics.ListAPIView):
-    """Admin: view all orders."""
-    queryset = Order.objects.all().order_by("-created_at")
-    serializer_class = OrderDetailSerializer
-
-
 class OrderDetailView(generics.RetrieveAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderDetailSerializer
