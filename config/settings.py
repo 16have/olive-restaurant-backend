@@ -132,4 +132,5 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://olive-restaurant-frontend.*\.vercel\.app$",
+    r"^https://olive-restaurant-frontend.onrender.com"
 ]
