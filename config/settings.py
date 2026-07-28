@@ -39,11 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #third party apps
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
 
-    #local apps
     'restaurant',
 ]
 
@@ -135,3 +134,8 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://olive-restaurant-frontend.*\.vercel\.app$",
     r"^https://olive-restaurant-frontend.onrender.com"
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
